@@ -1,0 +1,8 @@
+# Document Seeker API — deploy this folder as https://tshijukardp.com/api/
+
+DirectoryIndex index.php
+Options -Indexes
+
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+</IfModule>
