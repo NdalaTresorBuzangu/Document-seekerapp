@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'diagnostics_sheet.dart';
+import 'ds_text_styles.dart';
 import 'home_page.dart';
 import 'offline_storage.dart';
 import 'pending_sync.dart';
@@ -231,7 +232,7 @@ class SeekerDrawer extends StatelessWidget {
             const Divider(),
             ListTile(
               leading: Icon(Icons.logout, color: scheme.error),
-              title: Text('Sign out', style: TextStyle(color: scheme.error)),
+              title: Text('Sign out', style: context.dsDestructiveLabel()),
               onTap: () => _closeDrawerThen(context, () => _signOut(context)),
             ),
           ],

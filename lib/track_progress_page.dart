@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'api_service.dart';
+import 'ds_text_styles.dart';
 import 'chat_page.dart';
 import 'document_attachment_open.dart';
 import 'offline_storage.dart';
@@ -145,10 +146,7 @@ class _TrackProgressPageState extends State<TrackProgressPage> {
               ),
               if (_error != null) ...[
                 const SizedBox(height: 20),
-                Text(
-                  _error!,
-                  style: TextStyle(color: scheme.error, fontWeight: FontWeight.w500),
-                ),
+                Text(_error!, style: context.dsErrorMessage()),
               ],
               if (_result != null) ...[
                 const SizedBox(height: 24),

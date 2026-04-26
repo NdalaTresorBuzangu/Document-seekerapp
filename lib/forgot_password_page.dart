@@ -23,7 +23,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   int _step = 0;
   bool _busy = false;
   String? _error;
-  String? _devCodeHint;
 
   @override
   void initState() {
@@ -53,15 +52,17 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     setState(() {
       _busy = true;
       _error = null;
-      _devCodeHint = null;
     });
     try {
-      final body = await ApiService.requestPasswordReset(email: _email.text.trim());
-      final data = body['data'];
-      if (data is Map && data['dev_code'] != null) {
-        setState(() => _devCodeHint = data['dev_code'].toString());
-      }
+      await ApiService.requestPasswordReset(email: _email.text.trim());
       if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'If this email is registered, a code was sent. Check your inbox and spam folder.',
+          ),
+        ),
+      );
       setState(() => _step = 1);
       _otp.clear();
       _password.clear();
@@ -130,8 +131,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             child: AuthShell(
               title: _step == 0 ? 'Forgot your password?' : 'Enter code & new password',
               subtitle: _step == 0
-                  ? 'We will email you a 6-digit code (valid 15 minutes), same as on the Tshijuka RDP website.'
-                  : 'Use the code we sent to ${_email.text.trim()}. Then choose a new password.',
+                  ? 'If an account exists for this email, a 6-digit code will be sent (valid 15 minutes). Check your inbox and spam folder.'
+                  : 'Enter the 6-digit code from your email, then choose a new password.',
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -193,16 +194,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       },
                       onFieldSubmitted: (_) => _busy ? null : _setNewPassword(),
                     ),
-                    if (_devCodeHint != null) ...[
-                      const SizedBox(height: 10),
-                      Text(
-                        'Dev: your code is $_devCodeHint',
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: scheme.onSurfaceVariant,
-                              fontFamily: 'monospace',
-                            ),
-                      ),
-                    ],
                   ],
                   if (_error != null) ...[
                     const SizedBox(height: 14),
@@ -252,7 +243,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                               setState(() {
                                 _step = 0;
                                 _error = null;
-                                _devCodeHint = null;
                               });
                             },
                       child: const Text('Request a new code'),

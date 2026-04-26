@@ -11,6 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
 
 import 'api_service.dart';
+import 'ds_text_styles.dart';
 import 'camera_capture_page.dart';
 import 'ghana_momo.dart';
 import 'notification_service.dart';
@@ -505,10 +506,10 @@ class _NewRequestPageState extends State<NewRequestPage> with WidgetsBindingObse
                 const SizedBox(height: 8),
                 Text(docLine),
                 const SizedBox(height: 12),
-                const Text(
+                Text(
                   'Paystack opens in the app. When you finish paying, you return to this form automatically '
                   'and payment is confirmed — same idea as the website popup.',
-                  style: TextStyle(fontSize: 12),
+                  style: Theme.of(ctx).textTheme.bodySmall?.copyWith(height: 1.4),
                 ),
               ],
             ),
@@ -871,9 +872,11 @@ class _NewRequestPageState extends State<NewRequestPage> with WidgetsBindingObse
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
+                        Text(
                           'Documents to request',
-                          style: TextStyle(fontWeight: FontWeight.w700),
+                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                fontWeight: FontWeight.w700,
+                              ),
                         ),
                         OutlinedButton(
                           onPressed: _addRow,
@@ -990,9 +993,11 @@ class _NewRequestPageState extends State<NewRequestPage> with WidgetsBindingObse
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              const Text(
-                                'Your Saved Document IDs',
-                                style: TextStyle(fontWeight: FontWeight.w700),
+                              Text(
+                                'Your saved document IDs',
+                                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                      fontWeight: FontWeight.w700,
+                                    ),
                               ),
                               const SizedBox(height: 8),
                               ..._savedIds.take(8).map(
@@ -1134,7 +1139,7 @@ class _NewRequestPageState extends State<NewRequestPage> with WidgetsBindingObse
                     ),
                     if (_error != null) ...[
                       const SizedBox(height: 8),
-                      Text(_error!, style: TextStyle(color: scheme.error)),
+                      Text(_error!, style: context.dsErrorMessage()),
                     ],
                     if (_submittedIds.isNotEmpty) ...[
                       const SizedBox(height: 8),
@@ -1149,7 +1154,9 @@ class _NewRequestPageState extends State<NewRequestPage> with WidgetsBindingObse
                                 _submittedIds.length > 1
                                     ? '✓ ${_submittedIds.length} documents submitted successfully'
                                     : '✓ Document submitted successfully',
-                                style: const TextStyle(fontWeight: FontWeight.w700),
+                                style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                                      fontWeight: FontWeight.w700,
+                                    ),
                               ),
                               const SizedBox(height: 2),
                               Text(
@@ -1251,7 +1258,7 @@ class _NewRequestPageState extends State<NewRequestPage> with WidgetsBindingObse
                                                 ),
                                               );
                                             },
-                                            child: Text(id, style: const TextStyle(fontFamily: 'monospace', fontSize: 12)),
+                                            child: Text(id, style: context.dsIdMenuLiteral()),
                                           ),
                                       ],
                                     ),

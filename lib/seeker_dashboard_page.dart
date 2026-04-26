@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 import 'diagnostics_sheet.dart';
+import 'ds_text_styles.dart';
 import 'home_page.dart';
 import 'new_request_page.dart';
 import 'offline_storage.dart';
@@ -96,9 +97,13 @@ class _SeekerDashboardPageState extends State<SeekerDashboardPage> {
     final ok = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Clear all IDs?'),
-        content: const Text(
+        title: Text('Clear all IDs?', style: Theme.of(ctx).textTheme.titleLarge),
+        content: Text(
           'This only clears the local list on your device, not server documents.',
+          style: Theme.of(ctx).textTheme.bodyMedium?.copyWith(
+                color: Theme.of(ctx).colorScheme.onSurfaceVariant,
+                height: 1.45,
+              ),
         ),
         actions: [
           TextButton(
@@ -122,6 +127,7 @@ class _SeekerDashboardPageState extends State<SeekerDashboardPage> {
   Widget build(BuildContext context) {
     final name = SessionStore.userName ?? 'Seeker';
     final scheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     final pending = _pendingTotal;
 
     return Scaffold(
@@ -137,7 +143,7 @@ class _SeekerDashboardPageState extends State<SeekerDashboardPage> {
               child: Padding(
                 padding: const EdgeInsets.only(right: 8),
                 child: Chip(
-                  label: Text('$pending offline'),
+                  label: Text('$pending offline', style: textTheme.labelMedium),
                   visualDensity: VisualDensity.compact,
                 ),
               ),
@@ -203,19 +209,14 @@ class _SeekerDashboardPageState extends State<SeekerDashboardPage> {
                 children: [
                   Text(
                     'Welcome, $name',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w700,
-                          color: const Color(0xFFDC3545),
-                        ),
+                    style: context.dsEmphasisTitle(),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 6),
+                  const SizedBox(height: 8),
                   Text(
-                    'Empowering you to recover and protect your documents.',
+                    'Submit requests, track progress, and keep your document IDs handy.',
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: scheme.onSurfaceVariant,
-                        ),
+                    style: context.dsBodyMuted(),
                   ),
                 ],
               ),
@@ -230,20 +231,15 @@ class _SeekerDashboardPageState extends State<SeekerDashboardPage> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
-                      'My Document IDs',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.w700,
-                            color: const Color(0xFFDC3545),
-                          ),
+                      'My document IDs',
+                      style: context.dsEmphasisTitle(),
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 6),
+                    const SizedBox(height: 8),
                     Text(
-                      'All your submitted document IDs for easy tracking.',
+                      'Submitted IDs saved on this device for quick copy and tracking.',
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: scheme.onSurfaceVariant,
-                          ),
+                      style: context.dsBodyMuted(),
                     ),
                     const SizedBox(height: 10),
                     ..._savedIds.map(
@@ -257,17 +253,12 @@ class _SeekerDashboardPageState extends State<SeekerDashboardPage> {
                             children: [
                               SelectableText(
                                 item['id']?.toString() ?? '',
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  color: Color(0xFFDC3545),
-                                ),
+                                style: context.dsMonospaceId(),
                               ),
                               const SizedBox(height: 4),
                               Text(
                                 '${_formatDate(item['date'])}  ${item['description']?.toString() ?? ''}',
-                                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                      color: scheme.onSurfaceVariant,
-                                    ),
+                                style: context.dsBodyMuted(),
                               ),
                               const SizedBox(height: 8),
                               Wrap(
@@ -310,18 +301,13 @@ class _SeekerDashboardPageState extends State<SeekerDashboardPage> {
           Text(
             'Recovery tools',
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.w700,
-                  color: const Color(0xFFDC3545),
-                ),
+            style: context.dsPanelTitle(),
           ),
-          const SizedBox(height: 2),
+          const SizedBox(height: 6),
           Text(
-            'Submit requests, view your Tshijuka Pack, and track progress.',
+            'Submit requests, open your pack, track progress, or upload copies to protect.',
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: scheme.onSurfaceVariant,
-                ),
+            style: context.dsBodyMuted(),
           ),
           const SizedBox(height: 10),
           GridView.count(
@@ -425,10 +411,7 @@ class _ToolCard extends StatelessWidget {
               Text(
                 title,
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.w700,
-                      color: const Color(0xFFDC3545),
-                    ),
+                style: context.dsEmphasisTitle().copyWith(fontSize: 14),
               ),
               const SizedBox(height: 4),
               Text(
@@ -436,11 +419,7 @@ class _ToolCard extends StatelessWidget {
                 textAlign: TextAlign.center,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: scheme.onSurfaceVariant,
-                      fontSize: 11.5,
-                      height: 1.25,
-                    ),
+                style: context.dsBodyMuted().copyWith(fontSize: 12),
               ),
               const SizedBox(height: 6),
               ...features.take(3).map(
@@ -450,9 +429,7 @@ class _ToolCard extends StatelessWidget {
                     '• $f',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          color: scheme.onSurfaceVariant,
-                        ),
+                    style: context.dsFeatureBullet(),
                   ),
                 ),
               ),
@@ -462,12 +439,9 @@ class _ToolCard extends StatelessWidget {
                 style: FilledButton.styleFrom(
                   visualDensity: VisualDensity.compact,
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                  textStyle: context.dsCompactButtonLabel().copyWith(fontSize: 12),
                 ),
-                child: Text(
-                  buttonText,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 12),
-                ),
+                child: Text(buttonText, textAlign: TextAlign.center),
               ),
             ],
           ),

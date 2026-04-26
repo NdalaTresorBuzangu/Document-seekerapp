@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'api_service.dart';
 import 'auth_validators.dart';
 import 'auth_widgets.dart';
+import 'legal_document_page.dart';
 import 'login_page.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -43,7 +44,8 @@ class _RegisterPageState extends State<RegisterPage> {
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
     if (!_terms || !_privacy) {
-      setState(() => _error = 'Please accept the Terms and Privacy Policy to continue.');
+      setState(() => _error =
+          'You must read and accept the Terms of Service and the Privacy Policy to create an account.');
       return;
     }
     FocusScope.of(context).unfocus();
@@ -166,20 +168,9 @@ class _RegisterPageState extends State<RegisterPage> {
                     },
                   ),
                   const SizedBox(height: 18),
-                  CheckboxListTile(
-                    value: _terms,
-                    onChanged: (v) => setState(() => _terms = v ?? false),
-                    controlAffinity: ListTileControlAffinity.leading,
-                    contentPadding: EdgeInsets.zero,
-                    title: const Text('I accept the Terms of Service'),
-                  ),
-                  CheckboxListTile(
-                    value: _privacy,
-                    onChanged: (v) => setState(() => _privacy = v ?? false),
-                    controlAffinity: ListTileControlAffinity.leading,
-                    contentPadding: EdgeInsets.zero,
-                    title: const Text('I accept the Privacy Policy'),
-                  ),
+                  _consentTermsBlock(context),
+                  const SizedBox(height: 12),
+                  _consentPrivacyBlock(context),
                   if (_error != null) ...[
                     const SizedBox(height: 10),
                     Material(
@@ -244,6 +235,113 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  TextStyle? _linkStyle(BuildContext context) {
+    final theme = Theme.of(context);
+    return theme.textTheme.bodyMedium?.copyWith(
+      color: theme.colorScheme.primary,
+      fontWeight: FontWeight.w600,
+      decoration: TextDecoration.underline,
+      decorationColor: theme.colorScheme.primary,
+    );
+  }
+
+  Widget _consentTermsBlock(BuildContext context) {
+    final theme = Theme.of(context);
+    final linkStyle = _linkStyle(context);
+    return MergeSemantics(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Checkbox(
+            value: _terms,
+            onChanged: _busy ? null : (v) => setState(() => _terms = v ?? false),
+            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            visualDensity: VisualDensity.compact,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 2),
+            child: Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              spacing: 4,
+              runSpacing: 4,
+              children: [
+                Text(
+                  'I have read and accept the',
+                  style: theme.textTheme.bodyMedium,
+                ),
+                InkWell(
+                  onTap: _busy
+                      ? null
+                      : () {
+                          Navigator.of(context).push<void>(
+                            MaterialPageRoute<void>(
+                              builder: (_) => const LegalDocumentPage(
+                                kind: LegalDocumentKind.terms,
+                              ),
+                            ),
+                          );
+                        },
+                  child: Text('Terms of Service', style: linkStyle),
+                ),
+                Text('.', style: theme.textTheme.bodyMedium),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _consentPrivacyBlock(BuildContext context) {
+    final theme = Theme.of(context);
+    final linkStyle = _linkStyle(context);
+    return MergeSemantics(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Checkbox(
+            value: _privacy,
+            onChanged: _busy ? null : (v) => setState(() => _privacy = v ?? false),
+            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            visualDensity: VisualDensity.compact,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 2),
+            child: Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              spacing: 4,
+              runSpacing: 4,
+              children: [
+                Text(
+                  'I have read and accept the',
+                  style: theme.textTheme.bodyMedium,
+                ),
+                InkWell(
+                  onTap: _busy
+                      ? null
+                      : () {
+                          Navigator.of(context).push<void>(
+                            MaterialPageRoute<void>(
+                              builder: (_) => const LegalDocumentPage(
+                                kind: LegalDocumentKind.privacy,
+                              ),
+                            ),
+                          );
+                        },
+                  child: Text('Privacy Policy', style: linkStyle),
+                ),
+                Text(
+                  '(data protection & GDPR / Ghana compliant).',
+                  style: theme.textTheme.bodyMedium,
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

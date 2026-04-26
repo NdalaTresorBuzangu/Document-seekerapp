@@ -30,18 +30,16 @@ class AuthShell extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: -0.5,
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                         color: scheme.onSurface,
                       ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 10),
                 Text(
                   subtitle,
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         color: scheme.onSurfaceVariant,
-                        height: 1.45,
+                        height: 1.5,
                       ),
                 ),
               ],

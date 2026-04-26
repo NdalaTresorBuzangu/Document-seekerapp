@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'api_service.dart';
+import 'ds_text_styles.dart';
 import 'chat_page.dart';
 import 'pending_sync.dart';
 import 'document_detail_page.dart';
@@ -118,7 +119,7 @@ class _PackPageState extends State<PackPage> {
                     physics: const AlwaysScrollableScrollPhysics(),
                     padding: const EdgeInsets.all(24),
                     children: [
-                      Text(_error!, style: TextStyle(color: scheme.error)),
+                      Text(_error!, style: context.dsErrorMessage()),
                       const SizedBox(height: 16),
                       FilledButton(
                         onPressed: () {

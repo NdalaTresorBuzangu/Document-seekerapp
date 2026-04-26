@@ -10,6 +10,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'api_service.dart';
+import 'ds_text_styles.dart';
 import 'camera_capture_page.dart';
 import 'offline_storage.dart';
 import 'pending_sync.dart';
@@ -531,7 +532,7 @@ class _PrelossPageState extends State<PrelossPage> {
           else if (_error != null)
             Padding(
               padding: const EdgeInsets.all(12),
-              child: Text(_error!, style: TextStyle(color: Theme.of(context).colorScheme.error)),
+              child: Text(_error!, style: context.dsErrorMessage()),
             )
           else if (_items.isEmpty)
             Padding(
