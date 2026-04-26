@@ -1,16 +1,30 @@
-# document_seeker
+# Tshijuka Document Seeker (Flutter)
 
-A new Flutter project.
+Android app for document seekers on the **Tshijuka RDP** platform.
 
-## Getting Started
+## Links
 
-This project is a starting point for a Flutter application.
+- **YouTube presentation (15 minutes):** https://youtu.be/M53VJ5rM3dQ  
+- **Source code:** https://github.com/NdalaTresorBuzangu/Document-seekerapp  
+- **Live platform:** https://tshijukardp.com  
 
-A few resources to get you started if this is your first Flutter project:
+| Resource | URL |
+|----------|-----|
+| YouTube (15 min) | [Watch on YouTube](https://youtu.be/M53VJ5rM3dQ) |
+| GitHub | [NdalaTresorBuzangu/Document-seekerapp](https://github.com/NdalaTresorBuzangu/Document-seekerapp) |
+| Live site | [tshijukardp.com](https://tshijukardp.com) |
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+If you have the full **Tshijuka RDP** monorepo, the root `README.md` one level up has the complete overview and file reference table.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Run
+
+```bash
+flutter pub get
+flutter run
+```
+
+Optional API override:
+
+```bash
+flutter run --dart-define=API_BASE_URL=https://your-host/api
+```
