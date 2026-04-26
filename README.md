@@ -1,6 +1,10 @@
 # Tshijuka Document Seeker (Flutter)
 
-Android app for document seekers on the **Tshijuka RDP** platform.
+## Project description
+
+**Tshijuka Document Seeker** is the official Android app for **document seekers** on the **Tshijuka RDP** platform. It lets users sign in, create and manage document requests, attach evidence (photos, PDFs, and other allowed files), interact with pre-loss storage flows, and track progress. The app is built with **Flutter**, stores session data and offline queues in **Hive**, and talks to the same **HTTPS API** as the website (default: `tshijukardp.com`). It supports local features such as camera capture, location-aware context, push and local notifications, haptic and vibration feedback, and syncing queued work when the device is back online.
+
+If you are using the full monorepo, the parent folder contains the PHP web app and database schema; this directory is the **Flutter mobile client** only.
 
 ## Links
 
