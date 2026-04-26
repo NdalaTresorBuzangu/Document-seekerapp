@@ -60,12 +60,9 @@ $body = 'Hello ' . (($user['userName'] ?? '') !== '' ? $user['userName'] : 'ther
 $headers = "From: Tshijuka RDP <noreply@tshijuka.org>\r\nContent-Type: text/plain; charset=UTF-8\r\n";
 @mail($user['userEmail'], $subject, $body, $headers);
 
-$out = [
+// Never return the OTP in JSON — email only (avoids exposure in the app, logs, and proxies).
+ds_api_json([
     'success' => true,
-    'message' => 'A 6-digit code was sent to your email. It expires in 15 minutes.',
+    'message' => 'If this email is registered, a 6-digit code was sent. It expires in 15 minutes.',
     'data' => ['email' => $email],
-];
-if (defined('OTP_DEBUG_SHOW_CODE') && OTP_DEBUG_SHOW_CODE) {
-    $out['data']['dev_code'] = $otp;
-}
-ds_api_json($out);
+]);
